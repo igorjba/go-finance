@@ -17,9 +17,8 @@ var (
 	AppConfig *Config
 )
 
-// Init carrega as configurações quando o pacote é inicializado
-func init() {
-	// Carrega variáveis de ambiente do arquivo .env
+func Init() {
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Erro ao carregar .env")
@@ -32,7 +31,6 @@ func init() {
 	}
 }
 
-// getEnv busca por uma variável de ambiente ou retorna um valor padrão
 func getEnv(key string, fallback string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value

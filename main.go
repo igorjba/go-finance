@@ -1,29 +1,40 @@
 package main
 
 import (
-	"log"
+	"context"
 	"os"
 
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-
-	// "../go-test/api"
-	"../go-test/config"
+	"github.com/igorjba/go-test-back/api"
+	"github.com/igorjba/go-test-back/api/v1/handlers"
+	"github.com/igorjba/go-test-back/api/v1/routes"
+	"github.com/igorjba/go-test-back/config"
+	"github.com/igorjba/go-test-back/repository/item"
+	"github.com/igorjba/go-test-back/service"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
 	config.Init()
 
-	app := fiber.New()
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+	if err != nil {
+		panic(err)
+	}
+	db := client.Database(os.Getenv("MONGO_DB_NAME"))
 
-	app.Use(logger.New())
+	itemRepo := item.NewMongoRepository(db, "nome_da_colecao")
+	itemService := service.NewItemService(itemRepo)
+	itemHandler := handlers.NewItemHandler(itemService)
 
-	api.SetupRoutes(app)
+	app := api.InitServer()
+
+	routes.SetItemRoutes(app, itemHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
 	}
 
-	log.Fatal(app.Listen(":" + port))
+	api.RunServer(app, ":"+port)
 }
