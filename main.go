@@ -1,21 +1,29 @@
 package main
 
-// "../go-test/api"
-// "../go-test/config"
+import (
+	"log"
+	"os"
+
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+
+	// "../go-test/api"
+	"../go-test/config"
+)
 
 func main() {
-	// config.Init()
+	config.Init()
 
-	// app := fiber.New()
+	app := fiber.New()
 
-	// app.Use(logger.New())
+	app.Use(logger.New())
 
-	// api.SetupRoutes(app)
+	api.SetupRoutes(app)
 
-	// port := os.Getenv("PORT")
-	// if port == "" {
-	// 	port = "3000"
-	// }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
 
-	// log.Fatal(app.Listen(":" + port))
+	log.Fatal(app.Listen(":" + port))
 }
