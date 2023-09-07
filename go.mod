@@ -1,4 +1,4 @@
-module github.com/igorjba/go-finance
+module github.com/igorjba/go-teste-back
 
 go 1.21.1
 

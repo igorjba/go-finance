@@ -1,16 +1,21 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/gofiber/fiber/v2"
-)
+// "../go-test/api"
+// "../go-test/config"
 
 func main() {
-	app := fiber.New()
+	// config.Init()
 
-	app.Static("/", "./public")
+	// app := fiber.New()
 
-	app.Listen(":3000")
-	fmt.Println("Server on port 3000")
+	// app.Use(logger.New())
+
+	// api.SetupRoutes(app)
+
+	// port := os.Getenv("PORT")
+	// if port == "" {
+	// 	port = "3000"
+	// }
+
+	// log.Fatal(app.Listen(":" + port))
 }
