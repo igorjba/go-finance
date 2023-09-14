@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/igorjba/go-test-back/api/v1/middlewares"
 )
 
 func InitServer() *fiber.App {
@@ -15,8 +14,10 @@ func InitServer() *fiber.App {
 	app.Use(
 		recover.New(),
 		logger.New(),
-		middlewares.ErrorHandlerMiddleware,
 	)
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Servidor funcionando!")
+	})
 
 	return app
 }
